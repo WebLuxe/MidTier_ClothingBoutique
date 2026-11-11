@@ -254,13 +254,6 @@
             *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
             .marquee { animation: none !important; }
         }
-        /* ============ BUSINESS TIER: calmer effects ============ */
-        #introLoader .curtain, #introLoader .gold-dust, #introLoader .mandala-wrap, #introLoader .loader-skip, #sectionWipe { display: none !important; }
-        #introLoader { background: #2D040D; transition: opacity .5s ease; }
-        #introLoader.is-leaving { opacity: 0; }
-        #introLoader.is-leaving .loader-content { opacity: 1; transform: none; filter: none; }
-        .hero-mandala .spin { animation: none; }
-        body { background-image: radial-gradient(circle, rgba(154, 118, 40, .11) 0 1px, transparent 1.6px); }
     </style>
     <link rel="stylesheet" href="demo/demo.css">
     <link rel="stylesheet" href="demo/tiers.css">
@@ -896,7 +889,7 @@
             /* Hero: slow-turning background mandala + rising gold dust */
             buildMandala(document.getElementById('heroMandala'));
             const hd = document.getElementById('heroDust');
-            for (let h = 0; h < 0; h++) {   /* rising dust is a Signature effect */
+            for (let h = 0; h < 22; h++) {
                 const hb = document.createElement('b');
                 hb.style.left = (Math.random() * 100) + '%';
                 hb.style.setProperty('--s', (1.5 + Math.random() * 3) + 'px');
@@ -1308,13 +1301,39 @@
             window.scrollTo(0, Math.max(0, y));
             html.style.scrollBehavior = prev;
         }
-        /* Business tier: links glide to their section (the silk-pleat curtain is a Signature effect) */
-        function wipeTo(target, title, midway) {
-            if (midway) midway();
-            const extra = document.getElementById('mainHeader').offsetHeight;
-            const y = target.id === 'hero' ? 0 : target.getBoundingClientRect().top + window.scrollY - extra;
-            window.scrollTo({ top: Math.max(0, y), behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
-            if (target.id !== 'hero') history.replaceState(null, '', '#' + target.id);
+        async function wipeTo(target, title, midway) {
+            if (wiping) return;
+            if (REDUCED_MOTION || !document.body.animate) { if (midway) midway(); jumpTo(target); return; }
+            wiping = true;
+            const wrap = document.getElementById('sectionWipe');
+            const pleats = [...wrap.querySelectorAll('.pleat')];
+            const center = wrap.querySelector('.wipe-center');
+            const titleEl = document.getElementById('wipeTitle');
+            titleEl.innerHTML = [...(title || 'Harshinee')].map((ch, i) => `<span style="--i:${i}">${ch === ' ' ? '&nbsp;' : ch}</span>`).join('');
+            const mid = (pleats.length - 1) / 2;
+            const ease = 'cubic-bezier(.77,0,.18,1)';
+            wrap.classList.add('is-active');
+            try {
+                const ins = pleats.map((p, i) => p.animate(
+                    [{ transform: 'translateY(-101%)' }, { transform: 'translateY(0)' }],
+                    { duration: 520, delay: Math.abs(i - mid) * 55, easing: ease, fill: 'forwards' }).finished);
+                await Promise.all(ins);
+                center.style.opacity = 1;
+                wrap.classList.add('is-drawing');
+                if (midway) midway();
+                jumpTo(target);
+                await sleep(720);
+                await center.animate([{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(1.06)' }], { duration: 260, easing: 'ease-in', fill: 'forwards' }).finished;
+                const outs = pleats.map((p, i) => p.animate(
+                    [{ transform: 'translateY(0)' }, { transform: 'translateY(101%)' }],
+                    { duration: 560, delay: (mid - Math.abs(i - mid)) * 55, easing: ease, fill: 'forwards' }).finished);
+                await Promise.all(outs);
+            } catch (err) { jumpTo(target); }
+            pleats.forEach(p => p.getAnimations().forEach(a => a.cancel()));
+            center.getAnimations().forEach(a => a.cancel());
+            center.style.opacity = '';
+            wrap.classList.remove('is-active', 'is-drawing');
+            wiping = false;
         }
         document.addEventListener('click', e => {
             const a = e.target.closest('a[href^="#"]');
@@ -1363,7 +1382,7 @@
         (function () {
             const loader = document.getElementById('introLoader');
             const fast = loader.classList.contains('fast');
-            const minTime = fast ? 0 : (REDUCED_MOTION ? 200 : 900);
+            const minTime = REDUCED_MOTION ? 300 : (fast ? 700 : 3300);
             const start = performance.now();
             let left = false;
             function leave() {
@@ -1372,7 +1391,7 @@
                 try { sessionStorage.setItem('hf_intro_seen', '1'); } catch (e) {}
                 loader.classList.add('is-leaving');
                 setTimeout(() => { document.body.classList.add('is-loaded'); document.body.classList.remove('overflow-hidden'); }, REDUCED_MOTION ? 0 : 350);
-                setTimeout(() => loader.classList.add('is-done'), REDUCED_MOTION ? 50 : 600);
+                setTimeout(() => loader.classList.add('is-done'), REDUCED_MOTION ? 50 : 1300);
             }
             loader.addEventListener('click', leave);
             const heroImg = document.getElementById('heroImage');
@@ -1381,7 +1400,7 @@
                     document.fonts ? document.fonts.ready : Promise.resolve(),
                     heroImg.complete ? Promise.resolve() : new Promise(r => { heroImg.onload = r; heroImg.onerror = r; })
                 ]),
-                new Promise(r => setTimeout(r, fast ? 0 : 2500))
+                new Promise(r => setTimeout(r, 4500))
             ]).then(() => setTimeout(leave, Math.max(0, minTime - (performance.now() - start))));
         })();
 

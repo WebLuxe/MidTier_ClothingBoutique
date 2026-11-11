@@ -1,6 +1,6 @@
 # WebLuxe High Fashion Boutique: Business demo
 
-The middle tier of the WebLuxe clothing-shop demos: a complete shop on one page, in maroon and gold.
+The middle tier of the WebLuxe clothing-shop demos: a complete shop on one page, in maroon and gold, with the full set of effects.
 Live: https://webluxe.github.io/MidTier_ClothingBoutique/
 
 All pieces, prices, photos, names and addresses are examples. In demo mode the WhatsApp and call buttons show a popup instead of contacting anyone.
@@ -9,7 +9,7 @@ All pieces, prices, photos, names and addresses are examples. In demo mode the W
 - Collection with categories, search, sort and "show more"; quick view for each piece
 - Wishlist and bag, sent as one order on WhatsApp
 - Bride & Groom section, boutiques, booking form that opens WhatsApp
-- Rotating announcements, short intro, smooth scrolling between sections
+- Opening curtain with a mandala and gold dust (short version on repeat visits), silk-pleat curtain between sections, rising gold dust in the hero, rotating announcements
 - `/admin`: owner panel (demo mode keeps changes in the visitor's browser)
 
 ## Files
