@@ -33,15 +33,15 @@ window.SITE_DATA = {
     },
     {
       "id": 3,
-      "name": "Mint Tissue Silk Saree",
+      "name": "Red & Rani Pink Kanjeevaram Silk Saree",
       "category": "saree",
       "price": 4200,
       "was": 5600,
-      "img": "1609748340041-f5d61e061ebc",
+      "img": "1619516388835-2b60acc4049e",
       "hover": "",
       "tag": "",
-      "colour": "Mint",
-      "pos": "50% 25%"
+      "colour": "Red",
+      "pos": "50% 30%"
     },
     {
       "id": 4,
@@ -56,37 +56,37 @@ window.SITE_DATA = {
     },
     {
       "id": 5,
-      "name": "Bottle Green Silk Saree",
+      "name": "Sapphire Velvet Zari Saree",
       "category": "saree",
       "price": 4900,
       "was": 6500,
-      "img": "1610030469245-ab65c4583802",
+      "img": "1791975136255-1af7267828bb",
       "hover": "",
       "tag": "",
-      "colour": "Green",
+      "colour": "Blue",
       "pos": "50% 30%"
     },
     {
       "id": 6,
-      "name": "Coral Tissue Silk Saree",
+      "name": "Teal Paithani Silk Saree",
       "category": "saree",
       "price": 3600,
-      "img": "1610189338175-0782dfdb0c04",
+      "img": "1614881064213-180b1c28f743",
       "hover": "",
       "tag": "New",
-      "colour": "Coral",
-      "pos": "45% 30%"
+      "colour": "Teal",
+      "pos": "50% 20%"
     },
     {
       "id": 7,
-      "name": "Black & Rani Pink Jamdani Saree",
+      "name": "Ivory Handloom Cotton Saree",
       "category": "saree",
       "price": 4400,
-      "img": "1610030469839-f909584b43f1",
+      "img": "1572470176170-98fa8abcb741",
       "hover": "",
       "tag": "",
-      "colour": "Black",
-      "pos": "50% 20%"
+      "colour": "Ivory",
+      "pos": "50% 40%"
     },
     {
       "id": 8,
@@ -113,26 +113,26 @@ window.SITE_DATA = {
     },
     {
       "id": 10,
-      "name": "Powder Blue Chanderi Saree",
+      "name": "Sunshine Yellow Tussar Silk Saree",
       "category": "saree",
       "price": 3200,
-      "img": "1610189019383-606d9eaa6766",
+      "img": "1616429321229-733d6a7ff456",
       "hover": "",
       "tag": "",
-      "colour": "Blue",
-      "pos": "50% 25%"
+      "colour": "Yellow",
+      "pos": "50% 20%"
     },
     {
       "id": 11,
-      "name": "Blush Pink Cotton Silk Saree",
+      "name": "Emerald Green Banarasi Saree",
       "category": "saree",
       "price": 2900,
       "was": 3900,
-      "img": "1609748340756-aeb8223d6c64",
+      "img": "1770838446951-23c2e61c3d1c",
       "hover": "",
       "tag": "",
-      "colour": "Pink",
-      "pos": "50% 30%"
+      "colour": "Green",
+      "pos": "50% 45%"
     },
     {
       "id": 12,
