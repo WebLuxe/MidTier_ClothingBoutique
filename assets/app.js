@@ -119,8 +119,8 @@
         const sizes = opts.sizes || '(max-width:640px) 50vw, (max-width:960px) 33vw, 22vw';
         return `<article class="card" style="--i:${i}">
             <a class="ph" href="product.html?id=${p.id}" aria-label="${esc(p.name)}">
-                <img class="h1" src="${IMG(p.img, 600)}"${SRCSET(p.img, sizes)} alt="${esc(p.name)}" loading="lazy" style="object-position:${esc(p.pos || '50% 20%')}">
-                ${HOVER && p.alt ? `<img class="h2" src="${IMG(p.alt, 600)}"${SRCSET(p.alt, sizes)} alt="" aria-hidden="true" loading="lazy" style="object-position:${esc(p.altPos || p.pos || '50% 20%')}">` : ''}
+                <img class="h1" src="${IMG(p.img, 600)}"${SRCSET(p.img, sizes)} alt="${esc(p.name)}" loading="lazy" decoding="async" style="object-position:${esc(p.pos || '50% 20%')}">
+                ${HOVER && p.alt ? `<img class="h2" src="${IMG(p.alt, 600)}"${SRCSET(p.alt, sizes)} alt="" aria-hidden="true" loading="lazy" decoding="async" style="object-position:${esc(p.altPos || p.pos || '50% 20%')}">` : ''}
             </a>
             ${pct ? `<span class="badge">-${pct}%</span>` : ''}${p.tag && !/sale/i.test(p.tag) ? `<span class="tag">${esc(p.tag)}</span>` : ''}
             <button class="wish${w ? ' on' : ''}" data-id="${p.id}" aria-pressed="${w}" aria-label="Save ${esc(p.name)}">${ic('heart')}</button>
@@ -160,7 +160,7 @@
                 <li><a href="${base}&price=8000-15000">Rs 8,000 to 15,000</a></li>
                 <li><a href="${base}&price=15000-">Above Rs 15,000</a></li>
             </ul></div>
-            ${f ? `<a class="feat" href="product.html?id=${f.id}"><img src="${IMG(f.img, 700)}" alt="" loading="lazy" style="object-position:${esc(f.pos || '50% 20%')}"><span>${esc(f.name)}<small>${f.was ? `Now ${rs(f.price)}` : 'Featured piece'}</small></span></a>` : ''}
+            ${f ? `<a class="feat" href="product.html?id=${f.id}"><img src="${IMG(f.img, 700)}" alt="" loading="lazy" decoding="async" style="object-position:${esc(f.pos || '50% 20%')}"><span>${esc(f.name)}<small>${f.was ? `Now ${rs(f.price)}` : 'Featured piece'}</small></span></a>` : ''}
         </div></div>`;
     }
     function header() {
@@ -168,7 +168,7 @@
         const cur = new URLSearchParams(location.search).get('cat') || '';
         const curIs = keys => page === 'shop' && keys.some(k => cur.split(',').includes(k)) ? ' cur' : '';
         const ann = (DATA.announcements || []).length ? DATA.announcements : ['Example shop: all pieces, prices and photos are samples'];
-        const tile = c => { const p = inCat(c.key)[0]; return `<a class="ct-tile" href="shop.html?cat=${c.key}">${p ? `<img src="${IMG(p.img, 300)}" alt="" loading="lazy" style="object-position:${esc(p.pos || '50% 20%')}">` : ''}${esc(c.label)}</a>`; };
+        const tile = c => { const p = inCat(c.key)[0]; return `<a class="ct-tile" href="shop.html?cat=${c.key}">${p ? `<img src="${IMG(p.img, 300)}" alt="" loading="lazy" decoding="async" style="object-position:${esc(p.pos || '50% 20%')}">` : ''}${esc(c.label)}</a>`; };
         const hdr = `
         <div class="topbar"><div class="wrap">
             <div class="tb-l"><span>${ic('pin')} ${SHOP.boutiques.map(b => b.town).join(' & ')}</span></div>
@@ -362,7 +362,7 @@
         const slide = (cls, k, head, text, cta, href, pics, offer) => `
             <div class="slide ${cls}"><div class="txt"><div class="bgp"></div><span class="k">${esc(k)}</span>${head}<p class="d">${esc(text)}</p>
                 <div class="cta"><a class="btn btn-light" href="${href}">${esc(cta)}</a><a class="btn btn-line" style="color:#fff" href="contact.html">Book a fitting</a></div>${offer || ''}</div>
-                <div class="pics">${pics.filter(Boolean).map((p, i) => `<figure><img src="${IMG(p.img, i ? 500 : 800)}" alt="${esc(p.name)}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} style="object-position:${esc(p.pos || '50% 20%')}">${i === 0 ? `<figcaption>${esc(p.name)} · ${p.was ? `<b>${rs(p.price)}</b>` : rs(p.price)}</figcaption>` : ''}</figure>`).join('')}</div></div>`;
+                <div class="pics">${pics.filter(Boolean).map((p, i) => `<figure><img src="${IMG(p.img, i ? 500 : 800)}" alt="${esc(p.name)}" ${i ? 'loading="lazy" decoding="async"' : 'fetchpriority="high"'} style="object-position:${esc(p.pos || '50% 20%')}">${i === 0 ? `<figcaption>${esc(p.name)} · ${p.was ? `<b>${rs(p.price)}</b>` : rs(p.price)}</figcaption>` : ''}</figure>`).join('')}</div></div>`;
         const maxOff = Math.max(0, ...onSale().map(off));
         const html = `
         <section class="hero" aria-roledescription="carousel" aria-label="Highlights">
@@ -382,7 +382,7 @@
 
         <section class="sec"><div class="wrap">
             <div class="sh sh-c rv"><div><p class="k">Everything Indian, under one roof</p><h2>Shop by category</h2></div></div>
-            <div class="cats">${CATS.map((c, i) => { const p = inCat(c.key)[1] || inCat(c.key)[0]; return `<a class="cat rv" style="transition-delay:${i * 60}ms" href="shop.html?cat=${c.key}"><div class="ring">${p ? `<img src="${IMG(p.img, 360)}" alt="" loading="lazy" style="object-position:${esc(p.pos || '50% 20%')}">` : ''}</div><b>${esc(c.label)}</b><span>${inCat(c.key).length} pieces</span></a>`; }).join('')}</div>
+            <div class="cats">${CATS.map((c, i) => { const p = inCat(c.key)[1] || inCat(c.key)[0]; return `<a class="cat rv" style="transition-delay:${i * 60}ms" href="shop.html?cat=${c.key}"><div class="ring">${p ? `<img src="${IMG(p.img, 360)}" alt="" loading="lazy" decoding="async" style="object-position:${esc(p.pos || '50% 20%')}">` : ''}</div><b>${esc(c.label)}</b><span>${inCat(c.key).length} pieces</span></a>`; }).join('')}</div>
         </div></section>
 
         <section class="sec mandala-band band-sand"><div class="wrap">
@@ -488,8 +488,8 @@
         }));
         show(CATS[0].key, false);
     }
-    const promo = (cls, k, h, p, cta, href, pc) => `<a class="promo ${cls} rv" href="${href}"><div class="pt"><small>${esc(k)}</small><h3>${esc(h)}</h3><p>${esc(p)}</p><span class="btn btn-light btn-sm">${esc(cta)}</span></div><figure>${pc ? `<img src="${IMG(pc.img, 600)}" alt="" loading="lazy" style="object-position:${esc(pc.pos || '50% 20%')}">` : ''}</figure></a>`;
-    const occ = (t, s, href, p) => `<a class="rv" href="${href}">${p ? `<img src="${IMG(p.img, 700)}" alt="" loading="lazy" style="object-position:${esc(p.pos || '50% 20%')}">` : ''}<span>${esc(t)}<small>${esc(s)}</small></span></a>`;
+    const promo = (cls, k, h, p, cta, href, pc) => `<a class="promo ${cls} rv" href="${href}"><div class="pt"><small>${esc(k)}</small><h3>${esc(h)}</h3><p>${esc(p)}</p><span class="btn btn-light btn-sm">${esc(cta)}</span></div><figure>${pc ? `<img src="${IMG(pc.img, 600)}" alt="" loading="lazy" decoding="async" style="object-position:${esc(pc.pos || '50% 20%')}">` : ''}</figure></a>`;
+    const occ = (t, s, href, p) => `<a class="rv" href="${href}">${p ? `<img src="${IMG(p.img, 700)}" alt="" loading="lazy" decoding="async" style="object-position:${esc(p.pos || '50% 20%')}">` : ''}<span>${esc(t)}<small>${esc(s)}</small></span></a>`;
     const rev = (t, n, w) => `<figure class="rev rv" style="margin:0"><div class="st" aria-hidden="true">★★★★★</div><p>“${esc(t)}”</p><footer><b>${esc(n)}</b>, ${esc(w)}</footer></figure>`;
 
     /* ================================================================== SHOP */
